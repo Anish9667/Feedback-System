@@ -3,27 +3,23 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
 
-dotenv.config(); // env variables load karne ke liye
+dotenv.config(); 
 
 const app = express();
 
-// Middleware
 app.use(cors());
-app.use(express.json()); // JSON body read karne ke liye
+app.use(express.json()); 
 
-// Sample route
 app.get("/", (req, res) => {
   res.send("Feedback System API Running ✅");
 });
 
-// DB connect
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then(() => {
   console.log("MongoDB Connected ✅");
 
-  // Server start
   app.listen(process.env.PORT, () => {
     console.log(`Server Running on port ${process.env.PORT}`);
   });
