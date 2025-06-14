@@ -89,3 +89,28 @@ exports.getFeedbackStats = async (req, res) => {
     res.status(500).json({ success: false, message: "Failed to fetch stats", error });
   }
 };
+const { Parser } = require('json2csv');
+
+exports.exportFeedbackToCSV = async (req, res) => {
+  try {
+    const feedbacks = await Feedback.find();
+
+    if (feedbacks.length === 0) {
+      return res.status(404).json({ success: false, message: "No feedbacks found" });
+    }
+
+    const fields = ['email', 'comment', 'rating', 'createdAt'];
+    const opts = { fields };
+
+    const parser = new Parser(opts);
+    const csv = parser.parse(feedbacks);
+
+    res.header('Content-Type', 'text/csv');
+    res.attachment('feedbacks.csv');
+    res.send(csv);
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Failed to export CSV", error });
+  }
+};
