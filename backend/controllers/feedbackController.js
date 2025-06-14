@@ -48,3 +48,44 @@ exports.deleteFeedback = async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error', error });
   }
 };
+exports.getFeedbackStats = async (req, res) => {
+  try {
+    const totalFeedbacks = await Feedback.countDocuments();
+
+    const avgResult = await Feedback.aggregate([
+      {
+        $group: {
+          _id: null,
+          avgRating: { $avg: "$rating" }
+        }
+      }
+    ]);
+
+    const averageRating = avgResult.length > 0 ? avgResult[0].avgRating.toFixed(2) : 0;
+
+    const ratingsBreakdown = await Feedback.aggregate([
+      {
+        $group: {
+          _id: "$rating",
+          count: { $sum: 1 }
+        }
+      }
+    ]);
+
+    const ratingsCount = {};
+    for (let i = 1; i <= 5; i++) {
+      const found = ratingsBreakdown.find(item => item._id === i);
+      ratingsCount[i] = found ? found.count : 0;
+    }
+
+    res.status(200).json({
+      success: true,
+      totalFeedbacks,
+      averageRating,
+      ratingsCount
+    });
+
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Failed to fetch stats", error });
+  }
+};
