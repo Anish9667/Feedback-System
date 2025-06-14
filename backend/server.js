@@ -3,13 +3,14 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const feedbackRoutes = require('./routes/feedbackRoutes');
-
+const adminRoutes = require('./routes/adminRoutes');
 dotenv.config(); 
 
 const app = express();
 app.use(cors());
 app.use(express.json()); 
 app.use('/api/feedback', feedbackRoutes);
+app.use('/api/admin', adminRoutes);
 
 app.get("/", (req, res) => {
   res.send("Feedback System API Running ");
