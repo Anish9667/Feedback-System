@@ -60,7 +60,6 @@ exports.getFeedbackStats = async (req, res) => {
         }
       }
     ]);
-
     const averageRating = avgResult.length > 0 ? avgResult[0].avgRating.toFixed(2) : 0;
 
     const ratingsBreakdown = await Feedback.aggregate([
@@ -72,20 +71,21 @@ exports.getFeedbackStats = async (req, res) => {
       }
     ]);
 
-    const ratingsCount = {};
+    const ratingCounts = {};
     for (let i = 1; i <= 5; i++) {
       const found = ratingsBreakdown.find(item => item._id === i);
-      ratingsCount[i] = found ? found.count : 0;
+      ratingCounts[i] = found ? found.count : 0;
     }
 
     res.status(200).json({
       success: true,
-      totalFeedbacks,
-      averageRating,
-      ratingsCount
+      total: totalFeedbacks,
+      average: Number(averageRating),
+      ratingCounts
     });
 
   } catch (error) {
+    console.error(" Error in getFeedbackStats:", error);
     res.status(500).json({ success: false, message: "Failed to fetch stats", error });
   }
 };

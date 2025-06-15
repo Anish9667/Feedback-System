@@ -7,10 +7,10 @@ dotenv.config();
 
 mongoose.connect(process.env.MONGO_URI)
   .then(async () => {
-    const hashedPassword = await bcrypt.hash("admin123", 10);
+    const hashedPassword = await bcrypt.hash("admin1234", 10);
 
     const admin = new Admin({
-      email: "admin@gmail.com",
+      email: "anish@gmil.com",
       password: hashedPassword
     });
 
