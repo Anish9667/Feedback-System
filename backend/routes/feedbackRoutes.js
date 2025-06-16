@@ -4,7 +4,7 @@ const { submitFeedback, getAllFeedback, deleteFeedback, getFeedbackStats, export
 const protect = require('../middleware/authMiddleware');
 
 
-router.get('/', protect, getAllFeedback);
+router.get('/All', protect, getAllFeedback);
 router.post('/submit', submitFeedback);
 router.get('/', getAllFeedback);
 router.delete('/:id', protect, deleteFeedback);
