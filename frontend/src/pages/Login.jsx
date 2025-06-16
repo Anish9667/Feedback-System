@@ -19,7 +19,6 @@ const Login = () => {
       const res = await axios.post('/admin/login', form);
       const token = res.data.token;
 
-      // Save token to localStorage
       localStorage.setItem('token', token);
       navigate('/admin/dashboard');
     } catch (err) {

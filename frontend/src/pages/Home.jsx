@@ -11,7 +11,7 @@ const Home = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('/feedback', form);
+      await axios.post('/feedback/submit', form);
       alert('Feedback submitted successfully!');
       setForm({ email: '', comment: '', rating: 5 });
     } catch (err) {

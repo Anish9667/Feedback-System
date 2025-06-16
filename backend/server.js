@@ -16,7 +16,7 @@ app.use('/api/feedback', feedbackRoutes);
 app.use('/api/admin', adminRoutes);
 
 app.get("/", (req, res) => {
-  res.send("🎯 Feedback System API is Running!");
+  res.send(" Feedback System API is Running!");
 });
 
 mongoose.connect(process.env.MONGO_URI, {
@@ -24,11 +24,11 @@ mongoose.connect(process.env.MONGO_URI, {
   useUnifiedTopology: true,
 })
 .then(() => {
-  console.log("✅ MongoDB Connected");
+  console.log(" MongoDB Connected");
   app.listen(process.env.PORT, () => {
-    console.log(`🚀 Server running on port ${process.env.PORT}`);
+    console.log(` Server running on port ${process.env.PORT}`);
   });
 })
 .catch((err) => {
-  console.error("❌ MongoDB Connection Failed:", err);
+  console.error(" MongoDB Connection Failed:", err);
 });
